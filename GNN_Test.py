@@ -23,7 +23,6 @@ from tensorboardX import SummaryWriter
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
-
 ################ Model ################
 class GNNStack(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim, task='node'):
@@ -77,7 +76,8 @@ class GNNStack(nn.Module):
 
     def loss(self, pred, label):
         return F.nll_loss(pred, label)
-    
+
+ 
 class CustomConv(pyg_nn.MessagePassing):
     def __init__(self, in_channels, out_channels):
         super(CustomConv, self).__init__(aggr='add')  # "Add" aggregation.
@@ -111,7 +111,7 @@ class CustomConv(pyg_nn.MessagePassing):
     def update(self, aggr_out):
         # aggr_out has shape [N, out_channels]
         return aggr_out
-
+  
 
 ##################### Training and test def
 
@@ -181,7 +181,7 @@ def test(loader, model, is_validation=False):
     return correct / total
 
 ################## Training
-
+'''
 get_ipython().system_raw(
     'tensorboard --logdir {} --host 0.0.0.0 --port 6006 &'
     .format("./log")
@@ -189,7 +189,7 @@ get_ipython().system_raw(
 get_ipython().system_raw('./ngrok http 6006 &')
 !curl -s http://localhost:4040/api/tunnels | python3 -c \
     "import sys, json; print(json.load(sys.stdin)['tunnels'][0]['public_url'])"
-    
+'''    
 writer = SummaryWriter("./log/" + datetime.now().strftime("%Y%m%d-%H%M%S"))
 
 dataset = TUDataset(root='/tmp/ENZYMES', name='ENZYMES')
